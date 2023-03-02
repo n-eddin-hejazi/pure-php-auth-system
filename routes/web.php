@@ -3,6 +3,7 @@ use App\Core\Http\Route;
 use App\Controllers\Auth\RegisterController;
 use App\Controllers\Auth\LoginController;
 use App\Controllers\Auth\LogoutController;
+use App\Controllers\Auth\ForgetPasswordController;
 use App\Controllers\HomeController;
 
      // homae page route
@@ -18,6 +19,9 @@ use App\Controllers\HomeController;
 
      // logout page route
      Route::get('logout', [LogoutController::class, 'index']);
+
+
+     Route::get('forget-password', [ForgetPasswordController::class, 'index']);
 
 
      
