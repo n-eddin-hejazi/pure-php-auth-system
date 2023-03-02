@@ -8,10 +8,11 @@ class LoginController
 
      public function index()
      {
+          ifAuth();
           return view('auth.login');
      }
- 
-     public function store()
+     
+      public function store()
      {
           if($_SERVER['REQUEST_METHOD'] === 'POST'){
                if(isset($_POST['email'], $_POST['password'])){

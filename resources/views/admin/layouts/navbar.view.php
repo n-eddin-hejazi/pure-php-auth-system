@@ -6,7 +6,7 @@
             </div>
             <div class="flex items-center">
                 <div class="flex items-center ml-3">
-                    <a href="#" class="tracking-wider text-sm text-gray-500">Logout</a>
+                    <a href="<?= main_url() ?>/logout" class="tracking-wider text-sm text-gray-500">Logout</a>
                 </div>
             </div>
         </div>

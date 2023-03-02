@@ -2,6 +2,7 @@
 use App\Core\Http\Route;
 use App\Controllers\Auth\RegisterController;
 use App\Controllers\Auth\LoginController;
+use App\Controllers\Auth\LogoutController;
 use App\Controllers\HomeController;
 use App\Controllers\Admin\HomeController as AdminHomeController;
 
@@ -10,6 +11,8 @@ use App\Controllers\Admin\HomeController as AdminHomeController;
      Route::post('register', [RegisterController::class, 'store']);
      Route::get('login', [LoginController::class, 'index']);
      Route::post('login', [LoginController::class, 'store']);
+
+     Route::get('logout', [LogoutController::class, 'index']);
 
      Route::get('admin', [AdminHomeController::class, 'index']);
      

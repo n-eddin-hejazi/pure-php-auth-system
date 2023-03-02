@@ -11,6 +11,7 @@ class RegisterController
      
      public function index()
      {
+          ifAuth();
           return view('auth.register');
      }
 
