@@ -107,13 +107,14 @@ class LoginController
           }
 
           if($stmt->rowCount() && password_verify($this->password, $user['password'])){
+               session_start();
                $_SESSION['loggedin'] = true;
                $_SESSION['get_id'] = $user['id'];
                $_SESSION['get_name'] = $user['name'];
                $_SESSION['get_email'] = $user['email'];
 
                session()->setFlash('success', "Welcome {$user['name']}, you are logged in");
-               return back();
+               return to('admin');
           }
       
 
