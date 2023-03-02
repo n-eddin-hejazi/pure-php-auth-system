@@ -10,6 +10,7 @@ use App\Core\Http\Route;
      require_once 'app/core/Support/helpers.php';
      require_once 'database/db_connection.php';
      require_once 'routes/web.php';
+     require_once 'routes/admin.php';
      (new Route)->resolve();
      
      
