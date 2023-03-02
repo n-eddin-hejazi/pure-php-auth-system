@@ -22,11 +22,14 @@
                     <?php endif; ?>
                </div>
 
-               <div>
-                    <label class="flex items-center">
+               <div class="flex items-center justify-between">
+                    <label class="flex items-center cursor-pointer">
                          <input type="checkbox" class="rounded-none h-3 w-3 text-indigo-600">
                          <span class="ml-2 text-xs text-gray-700 font-bold">Remember me</span>
                     </label>
+                     <p class="text-right text-xs text-gray-700 font-medium">
+                         <a href="#" class="underline hover:text-indigo-800">Forgot password?</a>
+                    </p>
                </div>
 
 
