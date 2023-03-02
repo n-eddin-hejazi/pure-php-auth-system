@@ -3,14 +3,14 @@
 namespace App\Controllers\Auth;
 class LoginController
 {
-     public string $email;
-     public string $password;
+     private string $email;
+     private string $password;
 
      public function index()
      {
           return view('auth.login');
      }
-     
+ 
      public function store()
      {
           if($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -24,15 +24,17 @@ class LoginController
 
                     // check credits
                     $this->checkCredits();
+
+                    // assign last login
+                    $this->registerLastLogin();
+
+                    // redirect to home page
+                    $this->redirectToHome();
                }
           }
-
-          
-
-
      }
 
-     public function validation()
+     private function validation()
      {
           $email_errors = $this->emailValidation();
           if(!empty($email_errors)){
@@ -51,7 +53,7 @@ class LoginController
 
      }
 
-     public function emailValidation()
+     private function emailValidation()
      {
           $email_errors = [];
           // email validation
@@ -67,7 +69,7 @@ class LoginController
           return $email_errors;
      }
 
-     public function passwordValidation()
+     private function passwordValidation()
      {
           $password_errors = [];
           // password validation
@@ -88,7 +90,7 @@ class LoginController
           return $password_errors;
      }
 
-     public function checkCredits()
+     private function checkCredits()
      {
           include 'database/db_connection.php';
           $stmt = $db->prepare("SELECT * FROM `users` WHERE `email` = ?");
@@ -107,19 +109,27 @@ class LoginController
           }
 
           if($stmt->rowCount() && password_verify($this->password, $user['password'])){
-               session_start();
                $_SESSION['loggedin'] = true;
-               $_SESSION['get_id'] = $user['id'];
-               $_SESSION['get_name'] = $user['name'];
-               $_SESSION['get_email'] = $user['email'];
+               $_SESSION['id'] = $user['id'];
+               $_SESSION['name'] = $user['name'];
+               $_SESSION['email'] = $user['email'];
 
-               session()->setFlash('success', "Welcome {$user['name']}, you are logged in");
-               return to('admin');
+               
           }
-      
-
      }
 
+     private function registerLastLogin()
+     {
+          include 'database/db_connection.php';
+          $stmt = $db->prepare("UPDATE `users` SET `last_login` = ? WHERE `id` = ? AND `email` = ?");
+          $stmt->execute([date('Y-m-d H:i:s', time()), $_SESSION['id'], $_SESSION['email']]);
+     }
+
+     private function redirectToHome()
+     {
+          session()->setFlash('success', "Welcome {$_SESSION['name']}, you are logged in");
+          return to('admin');
+     }
 
 
 }   

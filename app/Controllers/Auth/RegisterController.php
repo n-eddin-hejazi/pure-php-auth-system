@@ -4,10 +4,10 @@ namespace App\Controllers\Auth;
 
 class RegisterController
 {
-     public string $name;
-     public string $email;
-     public string $password;
-     public string $password_confirmation;
+     private string $name;
+     private string $email;
+     private string $password;
+     private string $password_confirmation;
      
      public function index()
      {
@@ -38,7 +38,7 @@ class RegisterController
 
    
 
-     public function validation()
+     private function validation()
      {
           $name_errors = $this->nameValidation();
           if(!empty($name_errors)){
@@ -63,7 +63,7 @@ class RegisterController
 
      }
 
-     public function nameValidation()
+     private function nameValidation()
      {
           $name_errors = [];
 
@@ -85,7 +85,7 @@ class RegisterController
           return $name_errors;
      }
 
-     public function emailValidation()
+     private function emailValidation()
      {
           $email_errors = [];
           // email validation
@@ -109,7 +109,7 @@ class RegisterController
           return $email_errors;
      }
 
-     public function passwordValidation()
+     private function passwordValidation()
      {
           $password_errors = [];
           // password validation
