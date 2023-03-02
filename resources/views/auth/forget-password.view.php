@@ -35,3 +35,4 @@
     </form>
 </div>
 <?php include view_path() . 'layouts/footer.view.php'; ?>
+

@@ -1,11 +1,10 @@
 <?php
-
 namespace App\Controllers\Auth;
-
+use App\Core\Support\Mail;
 class ForgetPasswordController
 {
-
     private string $email;
+
     public function index()
     {
         ifAuth();
@@ -38,14 +37,23 @@ class ForgetPasswordController
 
         // if email not exist, return back
         if (!$stmt->rowCount()) {
+            sleep(3);
             session()->setFlash('success', "You will receive an email if your email is registered.");
-            return back();
+            return to('login');
         }
 
         // if email exist, send email
         if ($stmt->rowCount()) {
-            session()->setFlash('success', "You will receive an email if your email is registered.");
-            return back();
+            $subject = env('APP_NAME') . " Account recovery information";
+            $HTML_message = file_get_contents(view_path() . 'emails/forget-passowrd-email.view.php');
+            if(Mail::sendMail($this->email, $subject, $HTML_message)){
+                session()->setFlash('success', "You will receive an email if your email is registered.");
+                return to('login');
+            }else{
+                session()->setFlash('fail', "There is an error, please try again later!.");
+                return back();
+            }
+            
         }
     }
 
