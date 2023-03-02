@@ -119,12 +119,12 @@ class RegisterController
 
           // password validation
           if(strlen($this->password) < 8){
-               $password_errors[] = "the password should be grater than 7";
+               $password_errors[] = "the password should be grater than or equal to 8 characters";
           }
 
           // password validation
           if(strlen($this->password) > 32){
-               $password_errors[] = "the password should be less than 33";
+               $password_errors[] = "the password should be less than or equal to 32 characters";
           }
 
           // password validation
