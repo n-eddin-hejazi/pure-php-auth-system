@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Controllers\Auth;
-// use Database\Database;
 
 class RegisterController
 {
