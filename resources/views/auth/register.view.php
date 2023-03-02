@@ -24,7 +24,7 @@ include view_path() . 'layouts/header.view.php';
 
                <div>
                     <label for="email" class="sr-only">Email</label>
-                    <input id="email" name="email" type="email" autocomplete="email" value="<?= old('email') ?>" class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email">
+                    <input id="email" name="email" type="text" autocomplete="email" value="<?= old('email') ?>" class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email">
                     <?php if (session()->hasFlash('email_errors')): ?>
                          <p class="text-xs text-red-500">
                               <?= session()->getFlash('email_errors')[0]; ?>

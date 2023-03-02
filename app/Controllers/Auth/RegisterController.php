@@ -25,10 +25,6 @@ class RegisterController
                     $this->password = $_POST['password'];
                     $this->password_confirm = $_POST['password_confirmation'];
 
-
-                    // connect to database
-                    
-                    
                     // check the validations
                     $this->validation();
 
@@ -40,25 +36,7 @@ class RegisterController
 
      }
 
-     private function craeteNewAccount()
-     {
-          include 'database/db_connection.php';
-          try{
-               $stmt = $db->prepare("INSERT INTO `users` (`name`, `password`, `email`) VALUES(?, ?, ?)");
-               $stmt->execute([$this->name, password_hash($this->password, PASSWORD_DEFAULT), $this->email]);
-               if($stmt->rowCount()){
-                    session()->setFlash('success', 'Registered sucessfully');
-                    return back();
-               }else{
-                    session()->setFlash('db_fail', 'There is an error, please try again later!');
-                    return back();
-               }
-          } catch (Exception $e) {
-               session()->setFlash('db_fail', $e->getMessage());
-               return back();
-          }
-
-     }
+   
 
      public function validation()
      {
@@ -156,6 +134,26 @@ class RegisterController
 
           return $password_errors;
          
+     }
+
+     private function craeteNewAccount()
+     {
+          include 'database/db_connection.php';
+          try{
+               $stmt = $db->prepare("INSERT INTO `users` (`name`, `password`, `email`) VALUES(?, ?, ?)");
+               $stmt->execute([$this->name, password_hash($this->password, PASSWORD_DEFAULT), $this->email]);
+               if($stmt->rowCount()){
+                    session()->setFlash('success', 'Registered sucessfully');
+                    return back();
+               }else{
+                    session()->setFlash('db_fail', 'There is an error, please try again later!');
+                    return back();
+               }
+          } catch (Exception $e) {
+               session()->setFlash('db_fail', $e->getMessage());
+               return back();
+          }
+
      }
 
 }
