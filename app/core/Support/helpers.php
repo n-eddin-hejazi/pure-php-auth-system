@@ -74,6 +74,15 @@ if(!function_exists('back'))
      }
 }
 
+if(!function_exists('to'))
+{
+     function to($to)
+     {
+          header('Location:' . main_url() . '/' . $to);
+          exit;
+     }
+}
+
 if (!function_exists('old')) {
      function old($key)
      {

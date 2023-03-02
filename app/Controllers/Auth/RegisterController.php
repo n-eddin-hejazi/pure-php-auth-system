@@ -143,8 +143,9 @@ class RegisterController
                $stmt = $db->prepare("INSERT INTO `users` (`name`, `password`, `email`) VALUES(?, ?, ?)");
                $stmt->execute([$this->name, password_hash($this->password, PASSWORD_DEFAULT), $this->email]);
                if($stmt->rowCount()){
-                    session()->setFlash('success', 'Registered sucessfully');
-                    return back();
+                    session()->setFlash('success', 'Registered sucessfully, Sign in');
+                    return to('login');
+                    // return back();
                }else{
                     session()->setFlash('db_fail', 'There is an error, please try again later!.');
                     return back();
