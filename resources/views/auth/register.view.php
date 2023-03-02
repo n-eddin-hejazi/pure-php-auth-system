@@ -7,7 +7,7 @@ include view_path() . 'layouts/header.view.php';
 
 
      <!-- title of page -->
-     <div class="flex flex-col justify-between mt-20">
+     <div class="flex flex-col justify-between mt-32">
           
           <h2 class="my-6 text-center text-3xl font-extrabold text-gray-700">Register for new Account</h2>
           <form action="<?= main_url() ?>/register" method="POST" class="w-80 mx-auto flex flex-col justify-between gap-3">

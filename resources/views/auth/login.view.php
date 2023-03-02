@@ -1,6 +1,6 @@
 <?php include view_path() . 'layouts/header.view.php'; ?>   
  
-<div class="flex flex-col justify-between mt-20">
+<div class="flex flex-col justify-between mt-32">
      <h2 class="my-6 text-center text-3xl font-extrabold text-gray-700">Login</h2>
           <form action="<?= main_url() ?>/login" method="POST" class="w-80 mx-auto flex flex-col justify-between gap-3">
                
