@@ -5,7 +5,6 @@
           <form action="<?= main_url() ?>/login" method="POST" class="w-80 mx-auto flex flex-col justify-between gap-3">
                
                <div>
-                    <label for="email" class="sr-only">Email</label>
                     <input id="email" name="email" type="text" autocomplete="email" value="<?= old('email') ?>" class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email">
                     <?php if (session()->hasFlash('email_errors')): ?>
                          <p class="text-xs text-red-500">
@@ -15,7 +14,6 @@
                </div>
 
                <div>
-                    <label for="password" class="sr-only">Password</label>
                     <input id="password" name="password" type="password" autocomplete="password" class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Password">
                     <?php if (session()->hasFlash('password_errors')): ?>
                          <p class="text-xs text-red-500">
@@ -23,6 +21,14 @@
                          </p>
                     <?php endif; ?>
                </div>
+
+               <div>
+                    <label class="flex items-center">
+                         <input type="checkbox" class="rounded-none h-3 w-3 text-indigo-600">
+                         <span class="ml-2 text-xs text-gray-700 font-bold">Remember me</span>
+                    </label>
+               </div>
+
 
                <div>
                     <button type="submit" class="uppercase tracking-widest group w-full py-2 px-4 border border-transparent text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
