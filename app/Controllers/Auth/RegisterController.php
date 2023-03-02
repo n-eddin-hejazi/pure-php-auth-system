@@ -69,17 +69,17 @@ class RegisterController
 
           // name validation
           if(empty($this->name)){
-               $name_errors[] = 'name is required';
+               $name_errors[] = 'The name field is required.';
           }
 
           // name validation
           if(strlen($this->name) < 3){
-               $name_errors[] = 'the length of username field shloud be grater than 3';
+               $name_errors[] = 'The length of username field shloud be grater than or equal to 3 characters.';
           }
 
           // name validation
           if(strlen($this->name) > 32){
-               $name_errors[] = 'the length of username field shloud be less than 32';
+               $name_errors[] = 'The length of username field shloud be less than or equal to 32 characters.';
           }
 
           return $name_errors;
@@ -90,12 +90,12 @@ class RegisterController
           $email_errors = [];
           // email validation
           if(empty($this->email)){
-               $email_errors[] = "email is required";
+               $email_errors[] = "The email field is required.";
           }
 
           // email validation
           if(!filter_var($this->email, FILTER_VALIDATE_EMAIL) || strlen($this->email) < 6 || strlen($this->email) > 40){
-               $email_errors[] = "invalid email";
+               $email_errors[] = "Invalid email.";
           }
 
           // email validation
@@ -103,7 +103,7 @@ class RegisterController
           $stmt = $db->prepare("SELECT * FROM `users` WHERE `email` = ?");
           $stmt->execute([$this->email]);
           if($stmt->rowCount()){
-               $email_errors[] = "email is alerady taken, please pick up another one";
+               $email_errors[] = "Email is alerady taken, please pick up another one.";
           }
 
           return $email_errors;
@@ -114,22 +114,22 @@ class RegisterController
           $password_errors = [];
           // password validation
           if(empty($this->password)){
-               $password_errors[] = "password is required";
+               $password_errors[] = "The password field is required.";
           }
 
           // password validation
           if(strlen($this->password) < 8){
-               $password_errors[] = "the password should be grater than or equal to 8 characters";
+               $password_errors[] = "The password field should be grater than or equal to 8 characters.";
           }
 
           // password validation
           if(strlen($this->password) > 32){
-               $password_errors[] = "the password should be less than or equal to 32 characters";
+               $password_errors[] = "The password field should be less than or equal to 32 characters.";
           }
 
           // password validation
           if($this->password_confirm !== $this->password){
-               $password_errors[] = "password confirmation doesn't match";
+               $password_errors[] = "Password confirmation doesn't match.";
           }
 
           return $password_errors;
@@ -146,7 +146,7 @@ class RegisterController
                     session()->setFlash('success', 'Registered sucessfully');
                     return back();
                }else{
-                    session()->setFlash('db_fail', 'There is an error, please try again later!');
+                    session()->setFlash('db_fail', 'There is an error, please try again later!.');
                     return back();
                }
           } catch (Exception $e) {

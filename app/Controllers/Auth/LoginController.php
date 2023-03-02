@@ -56,12 +56,12 @@ class LoginController
           $email_errors = [];
           // email validation
           if(empty($this->email)){
-               $email_errors[] = "email is required";
+               $email_errors[] = "The email field is required.";
           }
 
           // email validation
           if(!filter_var($this->email, FILTER_VALIDATE_EMAIL) || strlen($this->email) < 6 || strlen($this->email) > 40){
-               $email_errors[] = "invalid email";
+               $email_errors[] = "Invalid email.";
           }
 
           return $email_errors;
@@ -72,17 +72,17 @@ class LoginController
           $password_errors = [];
           // password validation
           if(empty($this->password)){
-               $password_errors[] = "password is required";
+               $password_errors[] = "The password field is required.";
           }
 
           // password validation
           if(strlen($this->password) < 8){
-               $password_errors[] = "the password should be grater than or equal to 8 characters";
+               $password_errors[] = "The password field should be grater than or equal to 8 characters.";
           }
 
           // password validation
           if(strlen($this->password) > 32){
-               $password_errors[] = "the password should be less than or equal to 32 characters";
+               $password_errors[] = "The password field should be less than or equal to 32 characters.";
           }
 
           return $password_errors;
@@ -97,12 +97,12 @@ class LoginController
           $user = $stmt->rowCount() ? $stmt->fetch() : null;
 
           if(!$stmt->rowCount()){
-               session()->setFlash('db_fail', 'Username or password incorrect!');
+               session()->setFlash('db_fail', 'Username or password incorrect!.');
                return back();
           }
 
           if($stmt->rowCount() && !password_verify($this->password, $user['password'])){
-               session()->setFlash('db_fail', 'Username or password incorrect!');
+               session()->setFlash('db_fail', 'Username or password incorrect!.');
                return back();
           }
 
