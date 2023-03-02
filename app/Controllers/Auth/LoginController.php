@@ -99,12 +99,12 @@ class LoginController
           $user = $stmt->rowCount() ? $stmt->fetch() : null;
 
           if(!$stmt->rowCount()){
-               session()->setFlash('db_fail', 'Username or password incorrect!.');
+               session()->setFlash('db_fail', 'Email or password incorrect!.');
                return back();
           }
 
           if($stmt->rowCount() && !password_verify($this->password, $user['password'])){
-               session()->setFlash('db_fail', 'Username or password incorrect!.');
+               session()->setFlash('db_fail', 'Email or password incorrect!.');
                return back();
           }
 

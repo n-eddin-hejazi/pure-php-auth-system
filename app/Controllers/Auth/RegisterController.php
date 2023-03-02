@@ -74,12 +74,12 @@ class RegisterController
 
           // name validation
           if(strlen($this->name) < 3){
-               $name_errors[] = 'The length of username field shloud be grater than or equal to 3 characters.';
+               $name_errors[] = 'The length of name field shloud be grater than or equal to 3 characters.';
           }
 
           // name validation
           if(strlen($this->name) > 32){
-               $name_errors[] = 'The length of username field shloud be less than or equal to 32 characters.';
+               $name_errors[] = 'The length of name field shloud be less than or equal to 32 characters.';
           }
 
           return $name_errors;
