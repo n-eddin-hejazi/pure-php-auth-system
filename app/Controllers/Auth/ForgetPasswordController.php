@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers\Auth;
 use App\Core\Support\Mail;
+use App\Core\Support\QueryBuilder;
 class ForgetPasswordController
 {
     private string $email;
@@ -31,23 +32,18 @@ class ForgetPasswordController
     private function sendEmail()
     {
         // email validation
-        include 'database/db_connection.php';
-        $stmt = $db->prepare("SELECT * FROM `users` WHERE `email` = ?");
-        $stmt->execute([$this->email]);
-        
-
+        $user = QueryBuilder::get('users', 'email', '=', $this->email);
         // if email not exist, return back
-        if (!$stmt->rowCount()) {
+        if(!$user){
             sleep(3);
+            $this->makePropertiesEmpty();
             session()->setFlash('success', "You will receive an email if your email is registered.");
             return to('login');
         }
 
         // if email exist, send email
-        if ($stmt->rowCount()) {
-            $user = $stmt->rowCount() ? $stmt->fetch() : null;
+        if($user){
             $subject = env('APP_NAME') . " Account recovery information";
-
             $email = $this->email;
             $token = $this->generateUniqueToken();
             $url = main_url() . "/reset-passowrd?email={$this->email}&token={$token}";
@@ -56,39 +52,34 @@ class ForgetPasswordController
 
             if(Mail::sendMail($this->email, $subject, $HTML_message)){
                 // Insert the email and token into the password_resets table
-                $stmt = $db->prepare('INSERT INTO password_resets (email, token) VALUES (?, ?)');
-                $result = $stmt->execute([$email, $token]);
-                if ($result) {
-                    session()->setFlash('success', "You will receive an email if your email is registered.");
-                    return to('login');
-                } else {
-                    session()->setFlash('fail', "There is an error, please try again later!.");
-                    return back();
-                }
-
+                $data = ['email' => $email, 'token' => $token];
+                QueryBuilder::insert('password_resets', $data);
+                $this->makePropertiesEmpty();
+                session()->setFlash('success', "You will receive an email if your email is registered.");
+                return to('login');  
             }else{
+                $this->makePropertiesEmpty();
                 session()->setFlash('fail', "There is an error, please try again later!.");
                 return back();
             }
-            
         }
+
+        
+       
     }
 
     private function generateUniqueToken()
     {
         $token = bin2hex(random_bytes(25));
-
-        include 'database/db_connection.php';
-        $stmt = $db->prepare('SELECT * FROM password_resets WHERE token = ?');
-        $stmt->execute([$token]);
-        $result = $stmt->fetch();
-        if ($result) {
+        $old_token = QueryBuilder::get('password_resets', 'token', '=', $token);
+        if($old_token){
             // Token already exists in the database
             return $this->generateUniqueToken();
-        } else {
+        }else{
             // Token does not exist in the database
             return $token;
         }
+        
     }
 
     private function validation()
@@ -119,5 +110,10 @@ class ForgetPasswordController
         }
 
         return $email_errors;
+    }
+
+    private function makePropertiesEmpty()
+    {
+        $this->email = '';
     }
 }

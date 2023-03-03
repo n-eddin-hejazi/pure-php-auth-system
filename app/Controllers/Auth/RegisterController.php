@@ -87,24 +87,21 @@ class RegisterController
      private function emailValidation()
      {
           $email_errors = [];
-          // email validation
+          // email validation - check the email is empty
           if(empty($this->email)){
                $email_errors[] = "The email field is required.";
           }
 
-          // email validation
+          // email validation - check the email is invalid
           if(!filter_var($this->email, FILTER_VALIDATE_EMAIL) || strlen($this->email) < 6 || strlen($this->email) > 40){
                $email_errors[] = "Invalid email.";
           }
 
-          // email validation
-          include 'database/db_connection.php';
-          $stmt = $db->prepare("SELECT * FROM `users` WHERE `email` = ?");
-          $stmt->execute([$this->email]);
-          if($stmt->rowCount()){
+          // email validation - check the email if exist
+          if(QueryBuilder::get('users', 'email', '=', $this->email)){
                $email_errors[] = "Email is alerady taken, please pick up another one.";
           }
-
+          
           return $email_errors;
      }
 
@@ -145,6 +142,7 @@ class RegisterController
 
           try{
                QueryBuilder::insert('users', $data);
+               $this->makePropertiesEmpty();
                session()->setFlash('success', 'Registered sucessfully, Sign in');
                return to('login');
           } catch (Exception $e) {
@@ -152,6 +150,14 @@ class RegisterController
                return back();
           }
 
+     }
+
+     private function makePropertiesEmpty()
+     {
+          $this->name = '';
+          $this->password = '';
+          $this->email = '';
+          $this->$password_confirmation = '';
      }
 
 }

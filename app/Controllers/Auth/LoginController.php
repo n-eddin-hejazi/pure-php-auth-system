@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers\Auth;
+use App\Core\Support\QueryBuilder;
 class LoginController
 {
      private string $email;
@@ -23,7 +24,7 @@ class LoginController
                     // check the validations
                     $this->validation();
 
-                    // check credits
+                    // check credits and login
                     $this->checkCredits();
 
                     // assign last login
@@ -93,27 +94,23 @@ class LoginController
 
      private function checkCredits()
      {
-          include 'database/db_connection.php';
-          $stmt = $db->prepare("SELECT * FROM `users` WHERE `email` = ?");
-          $stmt->execute([$this->email]);
+          $user = QueryBuilder::get('users', 'email', '=', $this->email);
+          if(!$user){
+               session()->setFlash('db_fail', 'Email or password incorrect!.');
+               return back();
+          }
+         
 
-          $user = $stmt->rowCount() ? $stmt->fetch() : null;
-
-          if(!$stmt->rowCount()){
+          if($user && !password_verify($this->password, $user->password)){
                session()->setFlash('db_fail', 'Email or password incorrect!.');
                return back();
           }
 
-          if($stmt->rowCount() && !password_verify($this->password, $user['password'])){
-               session()->setFlash('db_fail', 'Email or password incorrect!.');
-               return back();
-          }
-
-          if($stmt->rowCount() && password_verify($this->password, $user['password'])){
+          if($user && password_verify($this->password, $user->password)){
                $_SESSION['loggedin'] = true;
-               $_SESSION['id'] = $user['id'];
-               $_SESSION['name'] = $user['name'];
-               $_SESSION['email'] = $user['email'];
+               $_SESSION['id'] = $user->id;
+               $_SESSION['name'] = $user->name;
+               $_SESSION['email'] = $user->email;
 
                
           }
@@ -121,16 +118,21 @@ class LoginController
 
      private function registerLastLogin()
      {
-          include 'database/db_connection.php';
-          $stmt = $db->prepare("UPDATE `users` SET `last_login` = ? WHERE `id` = ? AND `email` = ?");
-          $stmt->execute([date('Y-m-d H:i:s', time()), $_SESSION['id'], $_SESSION['email']]);
+          $data = ['last_login'=> date('Y-m-d H:i:s', time())];
+          QueryBuilder::update('users', $data, 'id', '=', $_SESSION['id']);
      }
 
      private function redirectToHome()
      {
+          $this->makePropertiesEmpty();
           session()->setFlash('success', "Welcome {$_SESSION['name']}, you are logged in");
           return to('admin');
      }
-
+     
+     private function makePropertiesEmpty()
+     {
+          $this->email = '';
+          $this->password = '';
+     }
 
 }   

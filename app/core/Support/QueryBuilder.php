@@ -20,11 +20,11 @@ class QueryBuilder
         return $rows;
     }
 
-    public static function get(string $table, $id, string $column = 'id', string $operator = '=')
+    public static function get(string $table, string $column, string $operator, string $value)
     {
         $query = "SELECT * FROM {$table} WHERE {$column} {$operator} ?";
         $stmt = self::$pdo->prepare($query);
-        $stmt->execute([$id]);
+        $stmt->execute([$value]);
         $row = $stmt->fetch(PDO::FETCH_OBJ);
         
         return $row;
@@ -36,28 +36,26 @@ class QueryBuilder
         $values = array_values($data);
         $fields_as_string = implode(',', $fields);
         $secured_fields = str_repeat('?,', count($fields) - 1) . '?';
-
+        
         $query = "INSERT INTO {$table} ({$fields_as_string}) VALUES ({$secured_fields})";
         $stmt = self::$pdo->prepare($query);
         $stmt->execute($values);
     }
 
-    public static function update(string $table, $id, array $data)
+    public static function update(string $table, array $data, string $column, string $operator, string $value)
     {
-
         $fields = array_keys($data);
         $values = array_values($data);
-        $fields_as_string = implode(' = ?, ', $fields) . ' = ? ';
-
-
-        $query = "UPDATE {$table} SET {$fields_as_string} WHERE id = {$id}";
+        $fields_as_string = implode(' = ?, ', $fields) . ' = ?';
+        
+        $query = "UPDATE {$table} SET {$fields_as_string} WHERE {$column} {$operator} '{$value}'";
         $stmt = self::$pdo->prepare($query);
         $stmt->execute($values);
     }
 
-    public static function delete(string $table, $id, string $column = 'id', string $operator = '=')
+    public static function delete(string $table, string $column, string $operator, string $id)
     {
-        $query = "DELETE FROM {$table} WHERE {$column} {$operator} {$id}";
+        $query = "DELETE FROM {$table} WHERE {$column} {$operator} '{$id}'";
         $stmt = self::$pdo->prepare($query);
         $stmt->execute();
     }
