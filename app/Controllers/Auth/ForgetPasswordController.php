@@ -29,11 +29,11 @@ class ForgetPasswordController
         }
     }
 
-    private function sendEmail()
+    private function checkIfEmailNotExist()
     {
         // email validation
         $user = QueryBuilder::get('users', 'email', '=', $this->email);
-        // if email not exist, return back
+        // if email not exist, return to login
         if(!$user){
             sleep(3);
             $this->makePropertiesEmpty();
@@ -41,31 +41,49 @@ class ForgetPasswordController
             return to('login');
         }
 
-        // if email exist, send email
-        if($user){
-            $subject = env('APP_NAME') . " Account recovery information";
-            $email = $this->email;
-            $token = $this->generateUniqueToken();
-            $url = main_url() . "/reset-passowrd?email={$this->email}&token={$token}";
-            $HTML_message = file_get_contents(view_path() . 'emails/forget-passowrd-email.html');
-            $HTML_message = str_replace('{url}', $url, $HTML_message);
+    }
 
-            if(Mail::sendMail($this->email, $subject, $HTML_message)){
-                // Insert the email and token into the password_resets table
-                $data = ['email' => $email, 'token' => $token];
-                QueryBuilder::insert('password_resets', $data);
-                $this->makePropertiesEmpty();
-                session()->setFlash('success', "You will receive an email if your email is registered.");
-                return to('login');  
-            }else{
-                $this->makePropertiesEmpty();
-                session()->setFlash('fail', "There is an error, please try again later!.");
-                return back();
-            }
-        }
-
+    private function firstSending()
+    {
+        // get user
+        $user = QueryBuilder::get('users', 'email', '=', $this->email);
         
-       
+        // start - prepare the data of email
+        $subject = env('APP_NAME') . " Account recovery information";
+        $email = $this->email;
+        $token = $this->generateUniqueToken();
+        $url = main_url() . "/reset-passowrd?email={$this->email}&token={$token}";
+        $HTML_message = file_get_contents(view_path() . 'emails/forget-passowrd-email.html');
+        $HTML_message = str_replace('{url}', $url, $HTML_message);
+        // end - prepare the data of email 
+
+        // send mail        
+        if(Mail::sendMail($this->email, $subject, $HTML_message)){
+            // Insert the email and token into the password_resets table
+            $data = ['email' => $email, 'token' => $token];
+            QueryBuilder::insert('password_resets', $data);
+
+            // assign class property as empty values
+            $this->makePropertiesEmpty();
+            
+            // send success message
+            session()->setFlash('success', "You will receive an email if your email is registered.");
+            return to('login');  
+        }else{
+            // assign class property as empty values
+            $this->makePropertiesEmpty();
+
+            // send fail message
+            session()->setFlash('fail', "There is an error, please try again later!.");
+            return back();
+        }
+        
+    }
+
+    private function sendEmail()
+    {
+        $this->checkIfEmailNotExist();
+        $this->firstSending();
     }
 
     private function generateUniqueToken()
