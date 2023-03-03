@@ -24,7 +24,7 @@
                 </div>
        
                 <div class="flex justify-center mt-8">
-                    <a href="/" class="uppercase tracking-widest group w-full py-2 px-4 border border-transparent text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Go back to homepage</a>
+                    <a href="<?= main_url() ?>" class="uppercase tracking-widest group w-full py-2 px-4 border border-transparent text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Go back to homepage</a>
                 </div>
             </div>
         </div>
