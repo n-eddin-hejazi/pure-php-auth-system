@@ -15,4 +15,4 @@ use App\Core\Support\QueryBuilder;
     require_once 'routes/admin.php';
     (new Route)->resolve();
        
-     
+     dd(QueryBuilder::all('users'));
