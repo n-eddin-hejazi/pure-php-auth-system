@@ -30,4 +30,17 @@ class QueryBuilder
         $stmt = self::$pdo->prepare($query);
         $stmt->execute($values);
     }
+
+    public static function update($table, $id, $data)
+    {
+
+        $fields = array_keys($data);
+        $values = array_values($data);
+        $fields_as_string = implode(' = ?, ', $fields) . ' = ? ';
+
+
+        $query = "UPDATE {$table} SET {$fields_as_string} WHERE id = {$id}";
+        $stmt = self::$pdo->prepare($query);
+        $stmt->execute($values);
+    }
 }
