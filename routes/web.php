@@ -4,10 +4,12 @@ use App\Controllers\Auth\RegisterController;
 use App\Controllers\Auth\LoginController;
 use App\Controllers\Auth\LogoutController;
 use App\Controllers\Auth\ForgetPasswordController;
+use App\Controllers\Auth\ResetPasswordController;
 use App\Controllers\HomeController;
 
      // homae page route
      Route::get('', [HomeController::class, 'home']);
+     Route::get('404', [HomeController::class, 'notFound']);
 
      // register page routes
      Route::get('register', [RegisterController::class, 'index']);
@@ -23,6 +25,11 @@ use App\Controllers\HomeController;
      // forget password page routes
      Route::get('forget-password', [ForgetPasswordController::class, 'index']);
      Route::post('forget-password', [ForgetPasswordController::class, 'forgetPassword']);
+
+     // reset password page route
+     Route::get('reset-password', [ResetPasswordController::class, 'index']);
+
+     
 
 
      

@@ -7,4 +7,9 @@ class HomeController
      {
           return view('home');
      }
+
+     public function notFound()
+     {
+          return view('404');
+     }
 }
