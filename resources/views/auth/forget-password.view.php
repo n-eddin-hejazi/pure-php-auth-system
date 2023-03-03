@@ -29,10 +29,10 @@ include view_path() . 'layouts/header.view.php';
             </div>
         <?php endif; ?>
 
-        <?php if (session()->hasFlash('db_fail')): ?>
+        <?php if (session()->hasFlash('fail')): ?>
             <div class="w-80 mx-auto bg-red-100 border border-red-400 text-red-700 px-4 py-3">
                     <strong class="font-bold text-xs">Fail!</strong>
-                    <span class="block sm:inline text-xs"><?= session()->getFlash('db_fail'); ?></span>
+                    <span class="block sm:inline text-xs"><?= session()->getFlash('fail'); ?></span>
             </div>
         <?php endif; ?>
 

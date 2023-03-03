@@ -142,7 +142,6 @@ class RegisterController
 
           try{
                QueryBuilder::insert('users', $data);
-               $this->makePropertiesEmpty();
                session()->setFlash('success', 'Registered sucessfully, Sign in');
                return to('login');
           } catch (Exception $e) {
@@ -150,14 +149,6 @@ class RegisterController
                return back();
           }
 
-     }
-
-     private function makePropertiesEmpty()
-     {
-          $this->name = '';
-          $this->password = '';
-          $this->email = '';
-          $this->$password_confirmation = '';
      }
 
 }

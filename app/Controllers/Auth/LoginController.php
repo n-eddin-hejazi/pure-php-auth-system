@@ -124,15 +124,8 @@ class LoginController
 
      private function redirectToHome()
      {
-          $this->makePropertiesEmpty();
           session()->setFlash('success', "Welcome {$_SESSION['name']}, you are logged in");
           return to('admin');
-     }
-     
-     private function makePropertiesEmpty()
-     {
-          $this->email = '';
-          $this->password = '';
      }
 
 }   
