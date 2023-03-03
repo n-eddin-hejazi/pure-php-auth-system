@@ -145,7 +145,7 @@ class RegisterController
                session()->setFlash('success', 'Registered sucessfully, Sign in');
                return to('login');
           } catch (Exception $e) {
-               session()->setFlash('db_fail', $e->getMessage());
+               session()->setFlash('fail', $e->getMessage());
                return back();
           }
 

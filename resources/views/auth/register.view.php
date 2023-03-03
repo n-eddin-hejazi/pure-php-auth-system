@@ -54,18 +54,9 @@ include view_path() . 'layouts/header.view.php';
                     </button>
                </div>
 
-               <?php if (session()->hasFlash('success')): ?>
-                    <div class="w-80 mx-auto bg-green-100 border border-green-400 text-green-700 px-4 py-3">
-                         <span class="block sm:inline text-xs"><?= session()->getFlash('success'); ?></span>
-                    </div>
-               <?php endif; ?>
 
-               <?php if (session()->hasFlash('db_fail')): ?>
-                    <div class="w-80 mx-auto bg-red-100 border border-red-400 text-red-700 px-4 py-3">
-                         <span class="block sm:inline text-xs"><?= session()->getFlash('db_fail'); ?></span>
-                    </div>
-               <?php endif; ?>
-
+               <?php include view_path() . 'layouts/success-message.view.php'; ?>   
+               <?php include view_path() . 'layouts/fail-message.view.php'; ?>   
 
           </form>
      </div>

@@ -97,13 +97,13 @@ class LoginController
      {
           $user = QueryBuilder::get('users', 'email', '=', $this->email);
           if(!$user){
-               session()->setFlash('db_fail', 'Email or password incorrect!.');
+               session()->setFlash('fail', 'Email or password incorrect!.');
                return back();
           }
          
 
           if($user && !password_verify($this->password, $user->password)){
-               session()->setFlash('db_fail', 'Email or password incorrect!.');
+               session()->setFlash('fail', 'Email or password incorrect!.');
                return back();
           }
 
