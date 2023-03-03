@@ -1,4 +1,8 @@
-<?php include view_path() . 'layouts/header.view.php'; ?>
+<?php 
+global $pageTitle;
+$pageTitle = 'Forget Password'; 
+include view_path() . 'layouts/header.view.php'; 
+?>
 
 <div class="flex flex-col justify-between mt-32">
      <h2 class="my-6 text-center text-3xl font-extrabold text-gray-700">Forget Password</h2>

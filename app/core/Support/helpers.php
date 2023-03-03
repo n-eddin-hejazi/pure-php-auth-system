@@ -113,3 +113,17 @@ if (!function_exists('ifNotAuth')) {
           }
      }
 }
+
+if (!function_exists('getTitle')) {
+     function getTitle()
+     {
+          global $pageTitle;
+          if(isset($pageTitle)){
+               return $pageTitle;
+          }else{
+               return env('APP_NAME');
+          }
+     }
+}
+
+

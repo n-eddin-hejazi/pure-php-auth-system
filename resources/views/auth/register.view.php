@@ -1,7 +1,8 @@
 <?php 
 use App\Controllers\Auth\RegisterController;
 use App\Core\Support\Session;
-
+global $pageTitle;
+$pageTitle = 'Register'; 
 include view_path() . 'layouts/header.view.php'; 
 ?>   
 

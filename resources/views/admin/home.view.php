@@ -1,4 +1,7 @@
-<?php include view_path() . 'admin/layouts/header.view.php'; ?>   
+<?php 
+global $pageTitle;
+$pageTitle = 'Dashboard'; 
+include view_path() . 'admin/layouts/header.view.php'; ?>   
 
 <p><?= $_SESSION['name'] ?></p>
 
