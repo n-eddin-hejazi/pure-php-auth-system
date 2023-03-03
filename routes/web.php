@@ -26,8 +26,9 @@ use App\Controllers\HomeController;
      Route::get('forget-password', [ForgetPasswordController::class, 'index']);
      Route::post('forget-password', [ForgetPasswordController::class, 'forgetPassword']);
 
-     // reset password page route
+     // reset password page routes
      Route::get('reset-password', [ResetPasswordController::class, 'index']);
+     Route::post('reset/password', [ResetPasswordController::class, 'resetPassword']);
 
      
 

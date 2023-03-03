@@ -5,7 +5,7 @@ use App\Core\Support\Mail;
 use App\Core\Support\QueryBuilder;
 class ForgetPasswordController
 {
-    const TOKEN_EXPIRATION_TIME = 60;
+    
     private string $email;
 
     public function index()
@@ -78,12 +78,12 @@ class ForgetPasswordController
         $diffInMinutes = Carbon::now()->diffInMinutes(Carbon::parse($old_token->created_at));
         
         // dont send                            
-        if(($user) && ($old_token) && ($diffInMinutes < self::TOKEN_EXPIRATION_TIME)){
+        if(($user) && ($old_token) && ($diffInMinutes < env('TOKEN_EXPIRATION_TIME'))){
             $this->secondSendingWhenTheTokenIsActive();
         }
 
         // update and send                         
-        if(($user) && ($old_token) && ($diffInMinutes >= self::TOKEN_EXPIRATION_TIME)){
+        if(($user) && ($old_token) && ($diffInMinutes >= env('TOKEN_EXPIRATION_TIME'))){
             $this->thirdSendingAfterUnblock();
         }
     }

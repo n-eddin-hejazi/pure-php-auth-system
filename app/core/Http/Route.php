@@ -54,7 +54,7 @@ class Route
 
           // not found page
           if((!array_key_exists($uri, self::$get)) && (!array_key_exists($uri, self::$post))){
-               dd('404');
+               return view('404');
           }
           
      }

@@ -1,22 +1,18 @@
 <?php 
+use App\Controllers\Auth\ResetPasswordController;
     global $pageTitle;
     $pageTitle = 'Reset Password'; 
     include view_path() . 'layouts/header.view.php'; 
-    if(!isset($_GET['token'])){
-        dd('404');
-    }
-
-    
+    ResetPasswordController::getURLValidation();
 ?>   
 
-   
-    <div class="flex flex-col justify-between mt-32">
-          
+    <div class="flex flex-col justify-between mt-32">          
         <h2 class="my-6 text-center text-3xl font-extrabold text-gray-700">Reset Your Password</h2>
-        <form action="<?= main_url() ?>/register" method="POST" class="w-80 mx-auto flex flex-col justify-between gap-3">
-            
+        <form action="<?= main_url() ?>/reset/password" method="POST" class="w-80 mx-auto flex flex-col justify-between gap-3">
+        <input type="hidden" name="email" value="<?= $_GET['email'] ?? false ?>">
+        <input type="hidden" name="token" value="<?= $_GET['token'] ?? false ?>">
             <div>
-                <input value="<?= $_GET['email'] ?>" disabled readonly  type="email" class="appearance-none relative block w-full px-3 py-2 border bg-gray-300 border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email">
+                <input value="<?= $_GET['email'] ?? 'ERROR' ?>" disabled readonly  type="email" class="appearance-none relative block w-full px-3 py-2 border bg-gray-300 border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email">
             </div>
 
             <div>
