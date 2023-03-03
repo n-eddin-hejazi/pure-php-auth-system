@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Auth;
 use App\Core\Support\QueryBuilder;
+use Carbon\Carbon;
 class LoginController
 {
      private string $email;
@@ -118,7 +119,8 @@ class LoginController
 
      private function registerLastLogin()
      {
-          $data = ['last_login'=> date('Y-m-d H:i:s', time())];
+          
+          $data = ['last_login'=> Carbon::now()];
           QueryBuilder::update('users', $data, 'id', '=', $_SESSION['id']);
      }
 
