@@ -122,7 +122,7 @@ class ForgetPasswordController
     {
         // start - prepare the data of email
         $subject = env('APP_NAME') . " Account recovery information";
-        $url = main_url() . "/reset-passowrd?email={$this->email}&token={$token}";
+        $url = main_url() . "/reset-password?email={$this->email}&token={$token}";
         $HTML_message = file_get_contents(view_path() . 'emails/forget-passowrd-email.html');
         $HTML_message = str_replace('{url}', $url, $HTML_message);
         // end - prepare the data of email 
