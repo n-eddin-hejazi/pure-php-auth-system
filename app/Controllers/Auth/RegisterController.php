@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controllers\Auth;
-
+use App\Core\Support\QueryBuilder;
 class RegisterController
 {
      private string $name;
@@ -36,8 +36,6 @@ class RegisterController
           }
 
      }
-
-   
 
      private function validation()
      {
@@ -139,18 +137,16 @@ class RegisterController
 
      private function craeteNewAccount()
      {
-          include 'database/db_connection.php';
+          $data = [
+               'name' => $this->name,
+               'password' => password_hash($this->password, PASSWORD_DEFAULT),
+               'email' => $this->email,
+          ];
+
           try{
-               $stmt = $db->prepare("INSERT INTO `users` (`name`, `password`, `email`) VALUES(?, ?, ?)");
-               $stmt->execute([$this->name, password_hash($this->password, PASSWORD_DEFAULT), $this->email]);
-               if($stmt->rowCount()){
-                    session()->setFlash('success', 'Registered sucessfully, Sign in');
-                    return to('login');
-                    // return back();
-               }else{
-                    session()->setFlash('db_fail', 'There is an error, please try again later!.');
-                    return back();
-               }
+               QueryBuilder::insert('users', $data);
+               session()->setFlash('success', 'Registered sucessfully, Sign in');
+               return to('login');
           } catch (Exception $e) {
                session()->setFlash('db_fail', $e->getMessage());
                return back();

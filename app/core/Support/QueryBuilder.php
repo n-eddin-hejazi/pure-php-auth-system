@@ -18,4 +18,16 @@ class QueryBuilder
 
         return $result;
     }
+
+    public static function insert($table, $data)
+    {   
+        $fields = array_keys($data);
+        $values = array_values($data);
+        $fields_as_string = implode(',', $fields);
+        $secured_fields = str_repeat('?,', count($fields) - 1) . '?';
+
+        $query = "INSERT INTO {$table} ({$fields_as_string}) VALUES ({$secured_fields})";
+        $stmt = self::$pdo->prepare($query);
+        $stmt->execute($values);
+    }
 }
