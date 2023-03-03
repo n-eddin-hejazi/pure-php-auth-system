@@ -2,7 +2,7 @@
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
         <div class="flex items-center justify-between">
             <div class="flex items-center justify-start">
-                <a href="<?= main_url() ?>" class="flex ml-2 md:mr-24 text-gray-700 font-bold text-xl">PHP-MVC</a>
+                <a href="<?= main_url() ?>" class="flex ml-2 md:mr-24 text-gray-700 font-bold text-xl"><?= env('APP_NAME') ?></a>
             </div>
             <div class="flex items-center">
                 <div class="flex items-center ml-3">

@@ -7,7 +7,8 @@ class Request
      {
           // $uri = trim($_SERVER['REQUEST_URI'], '/'); 
           $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-          $uri = str_replace('php-auth-system', '', $uri);
+          $uri = str_replace(env('MAIN_URL'), '', $uri);
+          
           $uri = trim($uri, '/');
 
           return $uri;
