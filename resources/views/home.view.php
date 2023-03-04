@@ -5,4 +5,5 @@
     <p class="mt-6 text-xl text-gray-600"></p>
 </div>
 
+
 <?php include view_path() . 'layouts/footer.view.php'; ?>   

@@ -6,6 +6,7 @@ use App\Core\Http\Route;
 use App\Core\Support\QueryBuilder;
 use Carbon\Carbon;
 
+
     ini_set('display_errors', 'On');
     date_default_timezone_set('Europe/Istanbul');
     require_once 'vendor/autoload.php';
@@ -16,4 +17,5 @@ use Carbon\Carbon;
     require_once 'routes/web.php';
     require_once 'routes/admin.php';
     (new Route)->resolve();
+
        

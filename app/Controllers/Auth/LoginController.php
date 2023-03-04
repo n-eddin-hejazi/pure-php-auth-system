@@ -11,6 +11,7 @@ class LoginController
      public function index()
      {
           ifAuth();
+          $this->autoLoginWithRememberMe();
           return view('auth.login');
      }
      
@@ -30,6 +31,8 @@ class LoginController
 
                     // assign last login
                     $this->registerLastLogin();
+
+                    $this->rememberMe();
 
                     // redirect to home page
                     $this->redirectToHome();
@@ -112,16 +115,50 @@ class LoginController
                $_SESSION['id'] = $user->id;
                $_SESSION['name'] = $user->name;
                $_SESSION['email'] = $user->email;
-
-               
           }
      }
 
      private function registerLastLogin()
-     {
-          
+     {  
           $data = ['last_login'=> Carbon::now()];
           QueryBuilder::update('users', $data, 'id', '=', $_SESSION['id']);
+     }
+
+     private function autoLoginWithRememberMe()
+     {
+          if((isset($_COOKIE['remember_me'])) && (is_string($_COOKIE['remember_me'])) && (strlen($_COOKIE['remember_me']) == 100)){         
+               $user = QueryBuilder::get('users', 'remember_me', '=', $_COOKIE['remember_me']);
+               if($user->remember_me === $_COOKIE['remember_me']){
+                    $_SESSION['loggedin'] = true;
+                    $_SESSION['id'] = $user->id;
+                    $_SESSION['name'] = $user->name;
+                    $_SESSION['email'] = $user->email;
+                    return to('admin');
+               }
+          }    
+     }
+
+     private function rememberMe()
+     {
+          if(isset($_POST['remember_me']) && ($_POST['remember_me'] == 'on')){
+               $data = ['remember_me' => $this->generateUniqueToken()];
+               QueryBuilder::update('users', $data, 'id', '=', $_SESSION['id']);
+               setcookie('remember_me', $data['remember_me'], time() + (60 * 60 * 24 * 30), '/');
+          }
+     }
+
+     private function generateUniqueToken()
+     {
+          $token = bin2hex(random_bytes(50));
+          $old_token = QueryBuilder::get('users', 'remember_me', '=', $token);
+          if($old_token){
+               // Token already exists in the database
+               return $this->generateUniqueToken();
+          }else{
+               // Token does not exist in the database
+               return $token;
+          }
+        
      }
 
      private function redirectToHome()
