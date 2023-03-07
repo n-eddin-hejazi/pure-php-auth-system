@@ -48,6 +48,10 @@ class ResetPasswordController
             return view('404');
         }
 
+        if ($token->reset_status == 1) {
+            return view('404');
+        }
+
     }
 
     private function postURLValidation()
@@ -147,8 +151,10 @@ class ResetPasswordController
     private function changePassword()
     {
         $data = ['password' => password_hash($this->password, PASSWORD_DEFAULT)];
+        
         try{
             QueryBuilder::update('users', $data, 'email', '=', $this->email);
+            QueryBuilder::update('password_resets', ['reset_status' => 1], 'email', '=', $this->email);
             session()->setFlash('success', 'Password reseted sucessfully.');
             return to('login');
         } catch (Exception $e) {

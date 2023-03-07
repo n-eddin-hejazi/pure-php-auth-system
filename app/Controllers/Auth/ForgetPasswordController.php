@@ -113,7 +113,7 @@ class ForgetPasswordController
     private function thirdSendingAfterUnblock()
     {       
         $token = $this->generateUniqueToken();
-        $data = ['token' => $token, 'created_at' => Carbon::now()];
+        $data = ['reset_status' => 0, 'token' => $token, 'created_at' => Carbon::now()];
         QueryBuilder::update('password_resets', $data, 'email', '=', $this->email);
         $this->sendEmail($token);
     }
